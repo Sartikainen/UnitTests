@@ -1,0 +1,48 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+class DeliveryTest {
+    private final Delivery delivery = new Delivery();
+
+    @Test
+    @Tag("Smoke")
+    @DisplayName("Стандартные тесты")
+    void costCalculation() {
+        int cost1 = delivery.deliveryCostCalculation(30, true, true, 1.6);
+        int cost2 = delivery.deliveryCostCalculation(5, true, true, 1.2);
+        int cost3 = delivery.deliveryCostCalculation(20, false, true, 1);
+
+        Assertions.assertEquals(1120, cost1);
+        Assertions.assertEquals(720, cost2);
+        Assertions.assertEquals(600, cost3);
+    }
+
+    @Test
+    @Tag("Smoke")
+    @DisplayName("Минимальная стоимость доставки")
+    void minimalCostCalculation() {
+        int minimalCost = delivery.deliveryCostCalculation(1, false, false, 1);
+
+        Assertions.assertEquals(400, minimalCost);
+    }
+
+    @Test
+    @Tag("Negative")
+    @DisplayName("Отрицательное расстояние")
+    void negativeDistance() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                new Delivery().deliveryCostCalculation(-6, true, true, 1.4));
+    }
+
+    @Test
+    @Tag("Negative")
+    @DisplayName("Доставка хрупкого груза на большое расстояние")
+    void fragileIsNotDelivery() {
+
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () ->
+                new Delivery().deliveryCostCalculation(47, true, true, 1.2));
+    }
+}
