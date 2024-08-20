@@ -1,0 +1,61 @@
+public class Delivery {
+    private int distance;
+    private boolean bigSize;
+    private boolean fragile;
+    private double hardworking;
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public boolean isBigSize() {
+        return bigSize;
+    }
+
+    public boolean isFragile() {
+        return fragile;
+    }
+
+    public double getHardworking() {
+        return hardworking;
+    }
+
+    public int deliveryCostCalculation(int distance, boolean bigSize, boolean fragile, double hardworking) {
+        this.distance = distance;
+        this.bigSize = bigSize;
+        this.fragile = fragile;
+        this.hardworking = hardworking;
+
+        int distanceCount = 0;
+        if(getDistance() > 0 && getDistance() <= 2) {
+            distanceCount = distanceCount+50;
+        } if (getDistance() > 2 && getDistance() <=10) {
+            distanceCount = distanceCount+100;
+        } if (getDistance() > 10 && getDistance() <=30) {
+            distanceCount = distanceCount+200;
+        } if (getDistance() > 30) {
+            distanceCount = distanceCount+300;
+        } else if (getDistance() <=0) {
+            throw new IllegalArgumentException("Укажите верное значение");
+        }
+
+        int sizeCount = 0;
+        if (isBigSize()) {
+            sizeCount = sizeCount + 200;
+        } else
+            sizeCount = sizeCount +100;
+
+        int fragileCount = 0;
+        if (isFragile() && getDistance() <= 30 && getDistance() > 0) {
+            fragileCount = fragileCount + 300;
+        } else if (isFragile() && getDistance() > 30) {
+            throw new IndexOutOfBoundsException("Доставка невозможна");
+        }
+
+        int cost = (int) ((distanceCount + sizeCount + fragileCount)*getHardworking());
+        if (cost < 400) {
+            return 400;
+        }
+        return cost;
+    }
+}
